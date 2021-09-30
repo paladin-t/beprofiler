@@ -1,0 +1,9 @@
+{
+  "id": 0,
+  "title": "beProfiler",
+  "description": "Fast function profiling for use with Bitty Engine",
+  "author": "Tony",
+  "version": "1.0.0",
+  "genre": "LIB",
+  "url": "https://github.com/paladin-t/beprofiler"
+}

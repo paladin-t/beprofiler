@@ -94,7 +94,9 @@ local config = {
 --[[ Locals ]]--
 
 local module = {}
-local getTime = os.clock
+local getTime = function () --os.clock
+  return DateTime.toSeconds(DateTime.ticks())
+end
 local string, debug, table = string, debug, table
 local reportCache = {}
 local allReports = {}
@@ -236,17 +238,18 @@ function module.report(filename)
   end
   filename = filename or "profiler.log"
   table.sort(allReports, function(a, b) return a.timer > b.timer end)
-  local fileWriter = io.open(filename, "w+")
+  local fileWriter = File.new() --io.open(filename, "w+")
+  fileWriter:open(filename, Stream.Write)
   local divide = false
   local totalTime = stopTime - startTime
   local totalTimeOutput = "> "..string.format(formatTotalTime, totalTime)
-  fileWriter:write(totalTimeOutput)
+  fileWriter:writeString(totalTimeOutput)
   if printFun ~= nil then
     printFun(totalTimeOutput)
   end
-  fileWriter:write(divider)
-  fileWriter:write(formatHeader)
-  fileWriter:write(divider)
+  fileWriter:writeString(divider)
+  fileWriter:writeString(formatHeader)
+  fileWriter:writeString(divider)
   for i = 1, reportCount do
     local funcReport = allReports[i]
     if funcReport.count > 0 and funcReport.timer <= totalTime then
@@ -266,7 +269,7 @@ function module.report(filename)
         local timer = string.format(formatFunTime, funcReport.timer)
         local relTime = string.format(formatFunRelative, (funcReport.timer / totalTime) * 100)
         if not divide and timer == nilTime then
-          fileWriter:write(divider)
+          fileWriter:writeString(divider)
           divide = true
         end
         if timer == nilTime then
@@ -275,7 +278,7 @@ function module.report(filename)
         end
         -- Build final line
         local output = string.format(formatOutput, funcReport.title, timer, relTime, count)
-        fileWriter:write(output)
+        fileWriter:writeString(output)
         -- This is a verbose print to the attached print function
         if printFun ~= nil and verbosePrint then
           printFun(output)
@@ -283,7 +286,7 @@ function module.report(filename)
       end
     end
   end
-  fileWriter:write(divider)
+  fileWriter:writeString(divider)
   fileWriter:close()
   if printFun ~= nil then
     printFun(config.reportSaved.."'"..filename.."'")
