@@ -7,7 +7,7 @@ beProfiler is a fast function profiler implemented in pure Lua for [Bitty Engine
 Setup:
 
 1. Clone this repository
-2. Open this project directly or import it to your own projects with [Bitty Engine](https://github.com/paladin-t/bitty/), "libs" is all what you need
+2. Open "src" directly or import it to your own projects with [Bitty Engine](https://github.com/paladin-t/bitty/), "src/libs" is all what you need
 3. See code and comments for details
 
 Code:
@@ -16,29 +16,29 @@ Code:
 require 'libs/beProfiler/beProfiler'
 
 function quit()
-	-- Stop profiling.
-	beProfiler.stop()
-	-- Get report path.
-	local path = Project.main:fullPath()
-	if Path.existsFile(path) then
-		path = FileInfo.new(path):parentPath()
-	elseif Path.existsDirectory(path) then
-		path = DirectoryInfo.new(path):parentPath()
-	end
-	path = Path.combine(path, 'profiler.log')
-	-- Report it.
-	beProfiler.report(path)
+  -- Stop profiling.
+  beProfiler.stop()
+  -- Get report path.
+  local path = Project.main:fullPath()
+  if Path.existsFile(path) then
+    path = FileInfo.new(path):parentPath()
+  elseif Path.existsDirectory(path) then
+    path = DirectoryInfo.new(path):parentPath()
+  end
+  path = Path.combine(path, 'profiler.log')
+  -- Report it.
+  beProfiler.report(path)
 
-	print('Report: ' .. path)
+  print('Report: ' .. path)
 end
 
 function setup()
-	-- Start profiling.
-	beProfiler.start()
+  -- Start profiling.
+  beProfiler.start()
 end
 
 function update(delta)
-	...
+  ...
 end
 ```
 

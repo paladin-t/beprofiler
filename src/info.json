@@ -1,7 +1,7 @@
 {
   "id": 0,
   "title": "beProfiler",
-  "description": "Fast function profiling for use with Bitty Engine",
+  "description": "Fast Lua function profiler for Bitty Engine",
   "author": "Tony",
   "version": "1.0.0",
   "genre": "LIB",
